@@ -1,8 +1,7 @@
 """Mermaid diagram rendering utilities."""
 
-import os
-import re
 import base64
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -47,7 +46,6 @@ def render_mermaid_to_image(mermaid_code: str, output_path: str, format: str = "
         # Extract clean Mermaid code
         clean_code = extract_mermaid_code(mermaid_code)
         if not clean_code:
-            print("Error: Could not extract valid Mermaid code")
             return False
         
         # Encode the Mermaid code for URL
@@ -60,7 +58,6 @@ def render_mermaid_to_image(mermaid_code: str, output_path: str, format: str = "
             url = f"https://mermaid.ink/img/{encoded}"
         
         # Download the image
-        print(f"Rendering Mermaid diagram to {format.upper()}...")
         response = httpx.get(url, timeout=30.0)
         response.raise_for_status()
         
@@ -71,11 +68,9 @@ def render_mermaid_to_image(mermaid_code: str, output_path: str, format: str = "
         with open(output_file, 'wb') as f:
             f.write(response.content)
         
-        print(f"✓ Diagram saved to: {output_file}")
         return True
         
-    except Exception as e:
-        print(f"Error rendering Mermaid diagram: {str(e)}")
+    except Exception:
         return False
 
 
@@ -99,7 +94,6 @@ def render_mermaid_with_playwright(mermaid_code: str, output_path: str, format: 
         # Extract clean Mermaid code
         clean_code = extract_mermaid_code(mermaid_code)
         if not clean_code:
-            print("Error: Could not extract valid Mermaid code")
             return False
         
         # Create HTML with Mermaid
@@ -120,7 +114,6 @@ def render_mermaid_with_playwright(mermaid_code: str, output_path: str, format: 
         </html>
         """
         
-        print(f"Rendering Mermaid diagram with Playwright...")
         
         with sync_playwright() as p:
             browser = p.chromium.launch()
@@ -146,7 +139,6 @@ def render_mermaid_with_playwright(mermaid_code: str, output_path: str, format: 
                     # Save as PNG
                     svg_element.screenshot(path=str(output_file))
                 
-                print(f"✓ Diagram saved to: {output_file}")
                 browser.close()
                 return True
             
@@ -154,10 +146,8 @@ def render_mermaid_with_playwright(mermaid_code: str, output_path: str, format: 
             return False
             
     except ImportError:
-        print("Error: Playwright not installed. Install with: pip install playwright && playwright install chromium")
         return False
-    except Exception as e:
-        print(f"Error rendering with Playwright: {str(e)}")
+    except Exception:
         return False
 
 
@@ -175,7 +165,6 @@ def save_mermaid_html(mermaid_code: str, output_path: str) -> bool:
         # Extract clean Mermaid code
         clean_code = extract_mermaid_code(mermaid_code)
         if not clean_code:
-            print("Error: Could not extract valid Mermaid code")
             return False
         
         # Create HTML with Mermaid
@@ -235,10 +224,7 @@ def save_mermaid_html(mermaid_code: str, output_path: str) -> bool:
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html_content)
         
-        print(f"✓ HTML file saved to: {output_file}")
-        print(f"  Open in browser to view the diagram")
         return True
         
-    except Exception as e:
-        print(f"Error saving HTML: {str(e)}")
+    except Exception:
         return False

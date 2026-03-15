@@ -1,22 +1,21 @@
+"""Utility functions for web search, content scraping, and string processing."""
 import os
+from typing import Any, Dict, List, Optional, Union
+
 import httpx
 import requests
-from typing import Dict, Any, List, Union, Optional
-
-from markdownify import markdownify
-from langsmith import traceable
-from tavily import TavilyClient
 from ddgs import DDGS
-
 from langchain_community.utilities import SearxSearchWrapper
+from langsmith import traceable
+from markdownify import markdownify
+from tavily import TavilyClient
 
 # Constants
 CHARS_PER_TOKEN = 4
 
 
 def get_config_value(value: Any) -> str:
-    """
-    Convert configuration values to string format, handling both string and enum types.
+    """Convert configuration values to string format, handling both string and enum types.
 
     Args:
         value (Any): The configuration value to process. Can be a string or an Enum.
@@ -34,8 +33,7 @@ def get_config_value(value: Any) -> str:
 
 
 def strip_thinking_tokens(text: str) -> str:
-    """
-    Remove <think> and </think> tags and their content from the text.
+    """Remove <think> and </think> tags and their content from the text.
 
     Iteratively removes all occurrences of content enclosed in thinking tokens.
 
@@ -57,8 +55,7 @@ def deduplicate_and_format_sources(
     max_tokens_per_source: int,
     fetch_full_page: bool = False,
 ) -> str:
-    """
-    Format and deduplicate search responses from various search APIs.
+    """Format and deduplicate search responses from various search APIs.
 
     Takes either a single search response or list of responses from search APIs,
     deduplicates them by URL, and formats them into a structured string.
@@ -112,7 +109,6 @@ def deduplicate_and_format_sources(
             raw_content = source.get("raw_content", "")
             if raw_content is None:
                 raw_content = ""
-                print(f"Warning: No raw_content found for source {source['url']}")
             if len(raw_content) > char_limit:
                 raw_content = raw_content[:char_limit] + "... [truncated]"
             formatted_text += f"Full source content limited to {max_tokens_per_source} tokens: {raw_content}\n\n"
@@ -121,8 +117,7 @@ def deduplicate_and_format_sources(
 
 
 def format_sources(search_results: Dict[str, Any]) -> str:
-    """
-    Format search results into a bullet-point list of sources with URLs.
+    """Format search results into a bullet-point list of sources with URLs.
 
     Creates a simple bulleted list of search results with title and URL for each source.
 
@@ -139,8 +134,7 @@ def format_sources(search_results: Dict[str, Any]) -> str:
 
 
 def fetch_raw_content(url: str) -> Optional[str]:
-    """
-    Fetch HTML content from a URL and convert it to markdown format.
+    """Fetch HTML content from a URL and convert it to markdown format.
 
     Uses a 15-second timeout and proper headers to avoid being blocked.
 
@@ -177,17 +171,13 @@ def fetch_raw_content(url: str) -> Optional[str]:
             lines = [line.strip() for line in markdown_content.split('\n') if line.strip()]
             cleaned_content = '\n'.join(lines)
             
-            print(f"✓ Successfully fetched content from {url} ({len(cleaned_content)} chars)")
             return cleaned_content
             
     except httpx.TimeoutException:
-        print(f"⚠ Timeout fetching {url} (took >15s)")
         return None
-    except httpx.HTTPStatusError as e:
-        print(f"⚠ HTTP error {e.response.status_code} for {url}")
+    except httpx.HTTPStatusError:
         return None
-    except Exception as e:
-        print(f"⚠ Failed to fetch {url}: {type(e).__name__}: {str(e)}")
+    except Exception:
         return None
 
 
@@ -195,8 +185,7 @@ def fetch_raw_content(url: str) -> Optional[str]:
 def duckduckgo_search(
     query: str, max_results: int = 3, fetch_full_page: bool = False
 ) -> Dict[str, List[Dict[str, Any]]]:
-    """
-    Search the web using DuckDuckGo and return formatted results.
+    """Search the web using DuckDuckGo and return formatted results.
 
     Uses the DDGS library to perform web searches through DuckDuckGo.
 
@@ -205,6 +194,7 @@ def duckduckgo_search(
         max_results (int, optional): Maximum number of results to return. Defaults to 3.
         fetch_full_page (bool, optional): Whether to fetch full page content from result URLs.
                                          Defaults to False.
+
     Returns:
         Dict[str, List[Dict[str, Any]]]: Search response containing:
             - results (list): List of search result dictionaries, each containing:
@@ -214,14 +204,11 @@ def duckduckgo_search(
                 - raw_content (str or None): Full page content if fetch_full_page is True,
                                             otherwise same as content
     """
-    print(f"🔍 Searching DuckDuckGo for: '{query}' (max_results={max_results}, fetch_full_page={fetch_full_page})")
-    
     try:
         with DDGS() as ddgs:
             results = []
             search_results = list(ddgs.text(query, max_results=max_results))
             
-            print(f"✓ Found {len(search_results)} search results")
 
             for i, r in enumerate(search_results, 1):
                 url = r.get("href")
@@ -229,7 +216,6 @@ def duckduckgo_search(
                 content = r.get("body")
 
                 if not all([url, title, content]):
-                    print(f"⚠ Skipping incomplete result {i}: {r}")
                     continue
 
                 # Start with snippet content
@@ -237,12 +223,10 @@ def duckduckgo_search(
                 
                 # Optionally fetch full page
                 if fetch_full_page:
-                    print(f"  📄 Fetching full page {i}/{len(search_results)}: {url}")
                     fetched_content = fetch_raw_content(url)
                     if fetched_content:
                         raw_content = fetched_content
                     else:
-                        print(f"  ⚠ Using snippet instead for {url}")
                         raw_content = content
 
                 # Add result to list
@@ -253,13 +237,10 @@ def duckduckgo_search(
                     "raw_content": raw_content,  # Full page or snippet
                 }
                 results.append(result)
-                print(f"  ✓ Added result {i}: {title[:60]}...")
 
-            print(f"✓ Returning {len(results)} results")
             return {"results": results}
             
-    except Exception as e:
-        print(f"❌ Error in DuckDuckGo search: {type(e).__name__}: {str(e)}")
+    except Exception:
         import traceback
         traceback.print_exc()
         return {"results": []}
@@ -269,8 +250,7 @@ def duckduckgo_search(
 def searxng_search(
     query: str, max_results: int = 3, fetch_full_page: bool = False
 ) -> Dict[str, List[Dict[str, Any]]]:
-    """
-    Search the web using SearXNG and return formatted results.
+    """Search the web using SearXNG and return formatted results.
 
     Uses the SearxSearchWrapper to perform searches through a SearXNG instance.
     The SearXNG host URL is read from the SEARXNG_URL environment variable
@@ -302,7 +282,6 @@ def searxng_search(
         content = r.get("snippet")
 
         if not all([url, title, content]):
-            print(f"Warning: Incomplete result from SearXNG: {r}")
             continue
 
         raw_content = content
@@ -324,8 +303,7 @@ def searxng_search(
 def tavily_search(
     query: str, fetch_full_page: bool = True, max_results: int = 3
 ) -> Dict[str, List[Dict[str, Any]]]:
-    """
-    Search the web using the Tavily API and return formatted results.
+    """Search the web using the Tavily API and return formatted results.
 
     Uses the TavilyClient to perform searches. Tavily API key must be configured
     in the environment.
@@ -345,7 +323,6 @@ def tavily_search(
                 - raw_content (str or None): Full content of the page if available and
                                             fetch_full_page is True
     """
-
     tavily_client = TavilyClient()
     return tavily_client.search(
         query, max_results=max_results, include_raw_content=fetch_full_page
@@ -356,8 +333,7 @@ def tavily_search(
 def perplexity_search(
     query: str, perplexity_search_loop_count: int = 0
 ) -> Dict[str, Any]:
-    """
-    Search the web using the Perplexity API and return formatted results.
+    """Search the web using the Perplexity API and return formatted results.
 
     Uses the Perplexity API to perform searches with the 'sonar-pro' model.
     Requires a PERPLEXITY_API_KEY environment variable to be set.
@@ -379,7 +355,6 @@ def perplexity_search(
     Raises:
         requests.exceptions.HTTPError: If the API request fails
     """
-
     headers = {
         "accept": "application/json",
         "content-type": "application/json",

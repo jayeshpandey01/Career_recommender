@@ -1,0 +1,121 @@
+/* ─── Reviews Page ─── */
+.reviews-page {
+  padding-top: 100px;
+  background: #f3f5f6;
+  min-height: 100vh;
+}
+
+.reviews-hero {
+  padding: 80px 0 60px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.display-title {
+  font-size: 3.5rem;
+  margin-bottom: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ─── Grid ─── */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.review-card {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+}
+
+.review-stars {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 6px;
+  color: #e2e8f0;
+}
+
+.review-stars .active {
+  color: #d4ff33; /* Lime */
+  text-shadow: 0 0 1px rgba(0,0,0,0.2);
+}
+
+.review-content {
+  font-size: 1.05rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 32px;
+  flex: 1;
+}
+
+/* ─── Author ─── */
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+
+.author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #f0f0f0;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+
+.author-role {
+  font-size: 0.85rem;
+  color: var(--text-3);
+  font-weight: 600;
+}
+
+/* ─── Layout Utils ─── */
+.pb-100 { padding-bottom: 100px; }
+.mt-60 { margin-top: 60px; }
+.mb-24 { margin-bottom: 24px; }
+.gap-16 { gap: 16px; display: flex; }
+.justify-content-center { justify-content: center; }
+.d-flex { display: flex; }
+
+@media (max-width: 768px) {
+  .display-title { font-size: 2.5rem; }
+  .reviews-hero { padding: 40px 0; }
+  .reviews-grid { grid-template-columns: 1fr; }
+}

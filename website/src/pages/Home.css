@@ -1,0 +1,375 @@
+/* ─── Hero V2 Duo-Card Layout ─── */
+.hero-v2 {
+    padding-top: 140px;
+    padding-bottom: 40px;
+    background: #f3f5f6;
+}
+
+.hero-v2-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    min-height: 620px;
+}
+
+.hero-card {
+    border-radius: var(--radius-xl);
+    position: relative;
+    overflow: hidden;
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-card-info {
+    background: #fff;
+    justify-content: center;
+}
+
+.hero-card-visual {
+    background: var(--accent);
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.hero-v2-title {
+    font-size: 4.5rem;
+    margin-bottom: 24px;
+    line-height: 1.05;
+}
+
+.hero-v2-sub {
+    font-size: 1.25rem;
+    color: var(--text-2);
+    margin-bottom: 40px;
+    max-width: 480px;
+    line-height: 1.6;
+}
+
+.btn-lime-pill {
+    background: var(--accent);
+    color: var(--black);
+    padding: 20px 48px;
+    border-radius: 99px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    width: fit-content;
+    box-shadow: 0 4px 0 var(--black);
+    transition: all 0.2s;
+}
+
+.btn-lime-pill:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--black);
+}
+
+.hero-app-links {
+    margin-top: 80px;
+    display: flex;
+    gap: 16px;
+}
+
+.app-btn {
+    border: 1px solid var(--border);
+    padding: 12px 24px;
+    border-radius: 99px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* Scroll Badge */
+.scroll-badge {
+    position: absolute;
+    bottom: -40px;
+    left: 80px;
+    width: 150px;
+    height: 150px;
+    background: #fff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    z-index: 10;
+}
+
+.scroll-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    animation: rotate 12s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Phone UI Mockup */
+.hero-phone-wrap {
+    width: 300px;
+    height: 580px;
+    background: #000;
+    border-radius: 50px;
+    padding: 14px;
+    position: relative;
+    z-index: 2;
+    transform: rotate(-5deg);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
+}
+
+.hero-phone-inner {
+    width: 100%;
+    height: 100%;
+    background: #111;
+    border-radius: 38px;
+    overflow: hidden;
+    padding: 40px 20px;
+    color: #fff;
+}
+
+.screen-header {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
+
+.match-score {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.match-career {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.stat-float {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    background: #fff;
+    padding: 24px;
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+    z-index: 3;
+    animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* ─── FAQ ─── */
+.faq-section {
+    padding: 100px 0;
+}
+
+.faq-title {
+    font-size: 3.5rem;
+    margin-bottom: 24px;
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 60px auto 0;
+}
+
+.faq-item {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.faq-toggle {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1rem;
+}
+
+.faq-answer {
+    margin-top: 20px;
+    color: var(--text-2);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    display: none;
+    /* In a real app we'd use state, but for pure UI mockup this is fine */
+}
+
+.faq-item:hover .faq-question {
+    color: var(--black);
+}
+
+/* ─── Section Header ─── */
+.section-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 60px;
+}
+
+.section-header h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+/* ─── Features ─── */
+.features-section {
+    background: #fdfdfd;
+    padding: 120px 0;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.feat-card {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    transition: all 0.3s ease;
+}
+
+.feat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.03);
+    border-color: #e0e0e0;
+}
+
+.feat-icon {
+    width: 60px;
+    height: 60px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    color: #000;
+    margin-bottom: 32px;
+}
+
+.feat-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+}
+
+.feat-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* ─── CTA ─── */
+.cta-section {
+    padding: 120px 0;
+}
+
+.cta-card {
+    background: #000;
+    color: #fff;
+    border-radius: 48px;
+    padding: 100px 40px;
+    text-align: center;
+}
+
+.cta-card .section-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: none;
+}
+
+.cta-card h2 {
+    color: #fff;
+    font-size: 4rem;
+    margin: 24px 0;
+}
+
+.cta-card p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 48px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+@media (max-width: 1024px) {
+    .hero-v2-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-v2-title {
+        font-size: 3.5rem;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-card {
+        padding: 40px 20px;
+    }
+
+    .hero-v2-title {
+        font-size: 2.8rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .scroll-badge {
+        display: none;
+    }
+}

@@ -1,48 +1,48 @@
+"""Main LangGraph workflow definition for the research assistant."""
 import json
-
-from pydantic import BaseModel, Field
-from typing_extensions import Literal
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.runnables import RunnableConfig
 from langchain_core.tools import tool
 from langchain_ollama import ChatOllama
-from langgraph.graph import START, END, StateGraph
+from langgraph.graph import END, START, StateGraph
+from pydantic import BaseModel, Field
+from typing_extensions import Literal
 
-from ollama_deep_researcher.configuration import Configuration, SearchAPI
-from ollama_deep_researcher.utils import (
-    deduplicate_and_format_sources,
-    tavily_search,
-    format_sources,
-    perplexity_search,
-    duckduckgo_search,
-    searxng_search,
-    strip_thinking_tokens,
-    get_config_value,
-)
-from ollama_deep_researcher.state import (
-    SummaryState,
-    SummaryStateInput,
-    SummaryStateOutput,
-)
-from ollama_deep_researcher.prompts import (
-    query_writer_instructions,
-    summarizer_instructions,
-    reflection_instructions,
-    get_current_date,
-    json_mode_query_instructions,
-    tool_calling_query_instructions,
-    json_mode_reflection_instructions,
-    tool_calling_reflection_instructions,
-    roadmap_generator_instructions,
-    mermaid_diagram_instructions,
-)
+from ollama_deep_researcher.configuration import Configuration
 from ollama_deep_researcher.lmstudio import ChatLMStudio
 
 # Import Mermaid renderer
 from ollama_deep_researcher.mermaid_renderer import (
     render_mermaid_to_image,
     save_mermaid_html,
+)
+from ollama_deep_researcher.prompts import (
+    get_current_date,
+    json_mode_query_instructions,
+    json_mode_reflection_instructions,
+    mermaid_diagram_instructions,
+    query_writer_instructions,
+    reflection_instructions,
+    roadmap_generator_instructions,
+    summarizer_instructions,
+    tool_calling_query_instructions,
+    tool_calling_reflection_instructions,
+)
+from ollama_deep_researcher.state import (
+    SummaryState,
+    SummaryStateInput,
+    SummaryStateOutput,
+)
+from ollama_deep_researcher.utils import (
+    deduplicate_and_format_sources,
+    duckduckgo_search,
+    format_sources,
+    get_config_value,
+    perplexity_search,
+    searxng_search,
+    strip_thinking_tokens,
+    tavily_search,
 )
 
 # Constants
@@ -57,7 +57,7 @@ def generate_search_query_with_structured_output(
     tool_query_field: str,
     json_query_field: str,
 ):
-    """Helper function to generate search queries using either tool calling or JSON mode.
+    """Generate search queries using either tool calling or JSON mode.
     
     Args:
         configurable: Configuration object
@@ -88,7 +88,6 @@ def generate_search_query_with_structured_output(
         # Use JSON mode
         llm = get_llm(configurable)
         result = llm.invoke(messages)
-        print(f"result: {result}")
         content = result.content
 
         try:
@@ -103,7 +102,7 @@ def generate_search_query_with_structured_output(
             return {"search_query": fallback_query}
 
 def get_llm(configurable: Configuration):
-    """Helper function to initialize LLM based on configuration.
+    """Initialize LLM based on configuration.
 
     Uses JSON mode if use_tool_calling is False, otherwise regular mode for tool calling.
 
@@ -156,7 +155,6 @@ def generate_query(state: SummaryState, config: RunnableConfig):
     Returns:
         Dictionary with state update, including search_query key containing the generated query
     """
-
     # Format the prompt
     current_date = get_current_date()
     formatted_prompt = query_writer_instructions.format(
@@ -168,9 +166,7 @@ def generate_query(state: SummaryState, config: RunnableConfig):
 
     @tool
     class Query(BaseModel):
-        """
-        This tool is used to generate a query for web search.
-        """
+        """This tool is used to generate a query for web search."""
 
         query: str = Field(description="The actual search query string")
         rationale: str = Field(
@@ -210,7 +206,6 @@ def web_research(state: SummaryState, config: RunnableConfig):
     Returns:
         Dictionary with state update, including sources_gathered, research_loop_count, and web_research_results
     """
-
     # Configure
     configurable = Configuration.from_runnable_config(config)
 
@@ -285,7 +280,6 @@ def summarize_sources(state: SummaryState, config: RunnableConfig):
     Returns:
         Dictionary with state update, including running_summary key containing the updated summary
     """
-
     # Get configuration
     configurable = Configuration.from_runnable_config(config)
     
@@ -360,10 +354,8 @@ def summarize_sources(state: SummaryState, config: RunnableConfig):
         
         # If summaries are identical or new is shorter, keep existing
         if normalized_new == normalized_existing or len(normalized_new) < len(normalized_existing) * 0.9:
-            print(f"Warning: No new information added, keeping existing summary")
             return {"running_summary": existing_summary}
     
-    print(f"Summary updated: {len(running_summary)} chars")
     return {"running_summary": running_summary}
 
 
@@ -381,7 +373,6 @@ def reflect_on_summary(state: SummaryState, config: RunnableConfig):
     Returns:
         Dictionary with state update, including search_query key containing the generated follow-up query
     """
-
     # Generate a query
     configurable = Configuration.from_runnable_config(config)
     formatted_prompt = reflection_instructions.format(
@@ -390,9 +381,7 @@ def reflect_on_summary(state: SummaryState, config: RunnableConfig):
 
     @tool
     class FollowUpQuery(BaseModel):
-        """
-        This tool is used to generate a follow-up query to address a knowledge gap.
-        """
+        """This tool is used to generate a follow-up query to address a knowledge gap."""
 
         follow_up_query: str = Field(
             description="Write a specific question to address this gap"
@@ -436,7 +425,6 @@ def finalize_summary(state: SummaryState):
     Returns:
         Dictionary with state update, including running_summary key containing the formatted final summary with sources
     """
-
     # Deduplicate sources before joining
     seen_sources = set()
     unique_sources = []
@@ -470,7 +458,6 @@ def generate_roadmap(state: SummaryState, config: RunnableConfig):
     Returns:
         Dictionary with state update, including roadmap key containing the structured roadmap
     """
-
     # Get configuration
     configurable = Configuration.from_runnable_config(config)
 
@@ -484,13 +471,13 @@ def generate_roadmap(state: SummaryState, config: RunnableConfig):
         llm = ChatLMStudio(
             base_url=configurable.lmstudio_base_url,
             model=configurable.local_llm,
-            temperature=0.3,  # Slightly higher for creativity
+            temperature=0,  # Stable output
         )
     else:  # Default to Ollama
         llm = ChatOllama(
             base_url=configurable.ollama_base_url,
             model=configurable.local_llm,
-            temperature=0.3,
+            temperature=0,
         )
 
     # Generate roadmap
@@ -524,7 +511,6 @@ def generate_mermaid_diagram(state: SummaryState, config: RunnableConfig):
     Returns:
         Dictionary with state update, including mermaid_diagram key containing the Mermaid code
     """
-
     # Get configuration
     configurable = Configuration.from_runnable_config(config)
 
@@ -572,24 +558,21 @@ def generate_mermaid_diagram(state: SummaryState, config: RunnableConfig):
         # Save as HTML (always works, no dependencies)
         html_path = os.path.join(output_dir, f"{safe_filename}_diagram.html")
         if save_mermaid_html(mermaid_diagram, html_path):
-            print(f"✓ Interactive HTML diagram: {html_path}")
+            pass
         
         # Try to render as PNG using Mermaid.ink API (requires internet)
         png_path = os.path.join(output_dir, f"{safe_filename}_diagram.png")
         if render_mermaid_to_image(mermaid_diagram, png_path, format="png"):
-            print(f"✓ PNG diagram: {png_path}")
+            pass
         
         # Try to render as SVG using Mermaid.ink API (requires internet)
         svg_path = os.path.join(output_dir, f"{safe_filename}_diagram.svg")
         if render_mermaid_to_image(mermaid_diagram, svg_path, format="svg"):
-            print(f"✓ SVG diagram: {svg_path}")
+            pass
         
-        print(f"\n📊 Diagrams saved in '{output_dir}/' directory")
-        print(f"   Open the HTML file in your browser to view the interactive diagram!")
         
-    except Exception as e:
-        print(f"Note: Could not auto-render diagrams: {str(e)}")
-        print(f"You can still use the Mermaid code at https://mermaid.live/")
+    except Exception:
+        pass
 
     return {"mermaid_diagram": mermaid_diagram}
 
@@ -609,7 +592,6 @@ def route_research(
     Returns:
         String literal indicating the next node to visit ("web_research" or "finalize_summary")
     """
-
     configurable = Configuration.from_runnable_config(config)
     if state.research_loop_count <= configurable.max_web_research_loops:
         return "web_research"
@@ -624,14 +606,10 @@ def route_after_finalize(
     configurable = Configuration.from_runnable_config(config)
     
     # Debug logging
-    print(f"\n🔍 DEBUG route_after_finalize:")
-    print(f"  generate_roadmap config: {configurable.generate_roadmap}")
     
     if configurable.generate_roadmap:
-        print(f"  ✓ Routing to: generate_roadmap")
         return "generate_roadmap"
     else:
-        print(f"  ✓ Routing to: __end__")
         return "__end__"
 
 
@@ -642,14 +620,10 @@ def route_after_roadmap(
     configurable = Configuration.from_runnable_config(config)
     
     # Debug logging
-    print(f"\n🔍 DEBUG route_after_roadmap:")
-    print(f"  generate_mermaid_diagram config: {configurable.generate_mermaid_diagram}")
     
     if configurable.generate_mermaid_diagram:
-        print(f"  ✓ Routing to: generate_mermaid_diagram")
         return "generate_mermaid_diagram"
     else:
-        print(f"  ✓ Routing to: __end__")
         return "__end__"
 
 

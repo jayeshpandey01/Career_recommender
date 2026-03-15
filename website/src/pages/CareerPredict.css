@@ -1,0 +1,733 @@
+/* ─── Page shell ────────────────────────────────────── */
+.cp-page {
+    padding-top: 100px;
+    background: #f3f5f6;
+    min-height: 100vh;
+}
+
+/* ─── Hero ──────────────────────────────────────────── */
+.cp-hero {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.cp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #667085;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 6px 16px;
+    border-radius: 99px;
+    margin-bottom: 24px;
+}
+
+.cp-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+
+.cp-hero p {
+    font-size: 1.1rem;
+    color: var(--text-2);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ─── Layout ─────────────────────────────────────────── */
+.cp-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    padding-bottom: 80px;
+    align-items: start;
+}
+
+.cp-side-info {
+    margin-bottom: 40px;
+}
+
+.cp-side-info h1 {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+
+.cp-side-info p {
+    font-size: 1.1rem;
+    color: var(--text-2);
+    line-height: 1.6;
+}
+
+
+/* ─── Form Panel (The Machine) ───────────────────────── */
+.cp-form-panel {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: var(--radius-xl);
+    padding: 48px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.02);
+}
+
+.cp-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.cp-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cp-panel-title i {
+    color: var(--black);
+    font-size: 1.25rem;
+}
+
+.cp-reset-btn {
+    background: #f8f9fa;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 99px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* ─── Step Indicator ────────────────────────────────── */
+.cp-steps {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 40px;
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 99px;
+}
+
+.cp-step {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 12px;
+    border-radius: 99px;
+    font-weight: 700;
+    color: #667085;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cp-step.active {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cp-step.done {
+    color: var(--green);
+}
+
+/* ─── Field Styles ─────────────────────────────────── */
+.cp-tab-body {
+    animation: fadeIn 0.4s ease-out;
+}
+
+.cp-section-info {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.cp-section-info h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.cp-section-info p {
+    color: var(--text-2);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.cp-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px 32px;
+    margin-bottom: 40px;
+}
+
+.cp-field {
+    margin-bottom: 0;
+}
+
+.cp-field-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.cp-input,
+.cp-select {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    background: #fcfcfc;
+    font-size: 1rem;
+    outline: none;
+}
+
+.cp-input:focus,
+.cp-select:focus {
+    border-color: #000;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.03);
+}
+
+.cp-select-wrap {
+    position: relative;
+}
+
+.cp-select-arrow {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-2);
+}
+
+.cp-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 48px;
+}
+
+/* Custom Sliders */
+.cp-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.cp-range {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.cp-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--black);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.cp-range::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+}
+
+.cp-slider-val {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--black);
+    min-width: 48px;
+    text-align: right;
+    background: #f8f9fa;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.cp-progress {
+    height: 4px;
+    background: transparent;
+    border-radius: 99px;
+    margin-top: -8px;
+    position: relative;
+    pointer-events: none;
+}
+
+.cp-progress-fill {
+    display: none; /* Disabling as range thumb creates fill natively easily with modern css, but keeping for structural logic */
+}
+
+/* ─── Results Panel ─────────────────────────────────── */
+.cp-results-panel {
+    position: sticky;
+    top: 100px;
+}
+
+.cp-placeholder {
+    background: #fff;
+    border: 1px dashed rgba(0,0,0,0.15);
+    border-radius: var(--radius-xl);
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.02);
+}
+
+.cp-placeholder-icon {
+    width: 64px;
+    height: 64px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    color: var(--black);
+    margin: 0 auto 24px;
+}
+
+.cp-placeholder h3 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.cp-placeholder p {
+    color: var(--text-2);
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+.cp-tips {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    display: inline-block;
+}
+
+.cp-tips li {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cp-tips i {
+    color: var(--accent-dark);
+}
+
+.cp-loading {
+    background: #fff;
+    border-radius: var(--radius-xl);
+    padding: 80px 40px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
+}
+
+.cp-spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid #f0f0f0;
+    border-top-color: var(--black);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 24px;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.cp-result-card {
+    background: #fff;
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
+}
+
+.cp-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.cp-result-status {
+    background: var(--accent);
+    color: var(--black);
+    padding: 6px 16px;
+    border-radius: 99px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+}
+
+.cp-score-circle {
+    width: 80px;
+    height: 80px;
+    background: #000;
+    color: var(--accent);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.cp-score-circle small {
+    font-size: 1rem;
+    margin-left: 2px;
+}
+
+.cp-score-label {
+    display: block;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.cp-insight-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #666;
+    background: #f3f5f6;
+    padding: 4px 12px;
+    border-radius: 99px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.cp-result-eyebrow {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-2);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.cp-result-career {
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-bottom: 32px;
+    letter-spacing: -0.02em;
+}
+
+.cp-result-actions {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+}
+
+.cp-demo-notice {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #d97706;
+    background: #fef3c7;
+    padding: 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.cp-nav-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+.cp-btn-primary {
+    background: var(--black);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 99px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.cp-btn-primary:not(:disabled):hover {
+    transform: scale(1.05);
+}
+
+.cp-btn-outline {
+    background: #fff;
+    color: var(--black);
+    border: 1px solid var(--border);
+    padding: 12px 24px;
+    border-radius: 99px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.cp-btn-outline:hover {
+    border-color: var(--black);
+}
+
+.cp-quick-submit {
+    width: 100%;
+    background: #f8f9fa;
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: 99px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.cp-quick-submit:hover {
+    background: #eef0f2;
+    color: var(--black);
+    border-color: #dcdcdc;
+}
+
+/* Review Box */
+.cp-review-box {
+    background: #f8f9fa;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-top: 40px;
+    border: 1px solid var(--border);
+}
+
+.cp-review-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 20px;
+}
+
+.cp-review-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.cp-review-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cp-review-item label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-2);
+    text-transform: uppercase;
+}
+
+.cp-review-item span {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--black);
+}
+
+.cp-personality-badge {
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    color: var(--text-2);
+}
+
+.cp-personality-badge strong {
+    color: var(--black);
+}
+
+.cp-progress-group {
+    margin-bottom: 40px;
+}
+
+.cp-conf-track {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.cp-conf-fill {
+    height: 100%;
+    background: var(--black);
+    border-radius: 99px;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cp-conf-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-2);
+    text-transform: uppercase;
+}
+
+.cp-roles-report {
+    background: #f8f9fa;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.cp-report-title {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cp-roles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.cp-role-item {
+    background: #fff;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.cp-role-item i {
+    color: var(--accent-dark);
+}
+
+.cp-roadmap-btn-premium {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--black);
+    color: #fff;
+    padding: 20px 32px;
+    border-radius: 24px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.cp-roadmap-btn-premium:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.cp-roadmap-btn-premium i {
+    color: var(--accent);
+}
+
+.cp-distribution-card {
+    background: #fff;
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.04);
+}
+
+.cp-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.cp-card-header h3 {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cp-badge-small {
+    background: #f3f5f6;
+    color: var(--black);
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.cp-dist-row {
+    margin-bottom: 24px;
+}
+
+.cp-dist-row:last-child {
+    margin-bottom: 0;
+}
+
+.cp-dist-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.cp-dist-bar-wrap {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.cp-dist-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+}
+
+@media (max-width: 1024px) {
+    .cp-layout {
+        grid-template-columns: 1fr;
+    }
+}

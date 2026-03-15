@@ -2,6 +2,18 @@
 
 A fully local web research and summarization assistant powered by Ollama/LMStudio and LangGraph. This tool performs iterative web research, identifies knowledge gaps, and generates comprehensive reports with structured roadmaps and visual diagrams.
 
+## 📚 Documentation
+
+- **[QUICK_START.md](QUICK_START.md)** ⚡ - Get started in 5 minutes
+- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** 📋 - Detailed step-by-step setup instructions
+- **[SETUP_FLOWCHART.md](SETUP_FLOWCHART.md)** 📊 - Visual setup guide with diagrams
+- **[HOW_IT_WORKS.md](HOW_IT_WORKS.md)** 🔧 - Architecture and technical details
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** 🚨 - Common issues and solutions
+- **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** 📑 - Complete documentation guide
+- **[README.md](README.md)** 📖 - This file (comprehensive reference)
+
+**New to the project?** Start with [QUICK_START.md](QUICK_START.md) or run `.\setup.ps1` for automated setup!
+
 ## Features
 
 - **Fully Local LLM Execution**: Run entirely on your machine using Ollama or LMStudio
@@ -47,38 +59,40 @@ ollama pull qwen2.5:7b
 2. Load a model and start the local server
 3. Ensure it's running on `http://localhost:1234/v1`
 
-## Installation
+## Quick Installation
 
-### Option 1: Using uv (Recommended)
+### Automated Setup (Windows)
 
-```bash
-# Clone the repository
-git clone <repository-url>
-cd ollama-deep-researcher
-
-# Install dependencies
-uv pip install -e .
-
-# Install Playwright browsers (for web scraping)
-playwright install
+```powershell
+# Run the automated setup script
+.\setup.ps1
 ```
 
-### Option 2: Using pip
+### Manual Installation
+
+See **[SETUP_GUIDE.md](SETUP_GUIDE.md)** for detailed step-by-step instructions.
+
+**Quick version:**
 
 ```bash
-# Clone the repository
+# 1. Install Ollama and pull a model
+ollama pull llama3.2:1b
+
+# 2. Clone and install
 git clone <repository-url>
 cd ollama-deep-researcher
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
 pip install -e .
+playwright install chromium
 
-# Install Playwright browsers
-playwright install
+# 3. Configure
+copy .env.example .env
+# Edit .env with your settings
+
+# 4. Test
+python test_setup.py
+
+# 5. Run
+uvx --refresh --from "langgraph-cli[inmem]" --with-editable . --python 3.11 langgraph dev
 ```
 
 ## Configuration

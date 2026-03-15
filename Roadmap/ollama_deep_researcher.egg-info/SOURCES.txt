@@ -1,4 +1,3 @@
-LICENSE
 README.md
 pyproject.toml
 ollama_deep_researcher.egg-info/PKG-INFO
@@ -10,6 +9,7 @@ src/ollama_deep_researcher/__init__.py
 src/ollama_deep_researcher/configuration.py
 src/ollama_deep_researcher/graph.py
 src/ollama_deep_researcher/lmstudio.py
+src/ollama_deep_researcher/mermaid_renderer.py
 src/ollama_deep_researcher/prompts.py
 src/ollama_deep_researcher/state.py
 src/ollama_deep_researcher/utils.py
